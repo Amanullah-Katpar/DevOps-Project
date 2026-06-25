@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevFlow — Advanced Project Management Dashboard</title>
+  <meta name="description" content="DevFlow is a modern, full-stack DevOps project management platform. Manage tasks, track projects, and ship faster with a beautiful glassmorphism dashboard." />
+  <meta name="keywords" content="devops, project management, task tracker, dashboard, mongodb, docker" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="landing-body">
+
+  <!-- ── Animated Particle Canvas ── -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav glass-nav" id="mainNav">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="url(#brandGrad)"/>
+          <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="brandGrad" x1="0" y1="0" x2="28" y2="28">
+              <stop offset="0%" stop-color="#6c63ff"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name">DevFlow</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features" class="nav-link">Features</a></li>
+      <li><a href="#stack" class="nav-link">Tech Stack</a></li>
+      <li><a href="#pipeline" class="nav-link">CI/CD</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" id="loginBtn">Login</button>
+      <button class="btn btn-primary" id="signupBtn">Get Started</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── Hero Section ── -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-in">
+        <span class="badge-dot"></span>
+        <span>Production-Ready DevOps Platform</span>
+      </div>
+      <h1 class="hero-title animate-fade-in-delay-1">
+        Ship Faster with<br />
+        <span class="gradient-text">DevFlow</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-in-delay-2">
+        A full-stack, containerized project management platform built with Node.js, MongoDB, Docker, and a blazing-fast GitHub Actions CI/CD pipeline. Beautiful by design. Powerful by default.
+      </p>
+      <div class="hero-cta animate-fade-in-delay-3">
+        <button class="btn btn-primary btn-lg" id="heroSignupBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          Launch Dashboard
+        </button>
+        <a href="https://github.com/Amanullah-Katpar/DevOps-Project" target="_blank" class="btn btn-outline btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+      <div class="hero-stats animate-fade-in-delay-4">
+        <div class="stat-item">
+          <span class="stat-number" data-target="8">0</span>
+          <span class="stat-label">Automated Tests</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="3">0</span>
+          <span class="stat-label">Docker Services</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="2">0</span>
+          <span class="stat-label">CI/CD Pipelines</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual animate-fade-in-delay-2">
+      <div class="dashboard-preview glass-card">
+        <div class="preview-header">
+          <div class="preview-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="preview-title">DevFlow Dashboard</span>
+        </div>
+        <div class="preview-body">
+          <div class="preview-sidebar">
+            <div class="sidebar-item active">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Dashboard
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              Tasks
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Projects
+            </div>
+          </div>
+          <div class="preview-main">
+            <div class="preview-cards-row">
+              <div class="mini-card purple">
+                <div class="mini-card-num">24</div>
+                <div class="mini-card-label">Total Tasks</div>
+              </div>
+              <div class="mini-card blue">
+                <div class="mini-card-num">8</div>
+                <div class="mini-card-label">In Progress</div>
+              </div>
+              <div class="mini-card green">
+                <div class="mini-card-num">12</div>
+                <div class="mini-card-label">Completed</div>
+              </div>
+            </div>
+            <div class="preview-chart-bar">
+              <div class="bar-fill" style="width:30%; background: #6c63ff;"></div>
+              <div class="bar-fill" style="width:50%; background: #a855f7;"></div>
+              <div class="bar-fill" style="width:80%; background: #22d3ee;"></div>
+              <div class="bar-fill" style="width:45%; background: #f59e0b;"></div>
+              <div class="bar-fill" style="width:65%; background: #10b981;"></div>
+            </div>
+            <div class="preview-task-list">
+              <div class="preview-task"><span class="task-dot purple"></span>Setup Docker containers</div>
+              <div class="preview-task"><span class="task-dot blue"></span>Configure CI pipeline</div>
+              <div class="preview-task done"><span class="task-dot green"></span>Write unit tests ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features Section ── -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">✦ Features</div>
+        <h2 class="section-title">Everything You Need to Ship</h2>
+        <p class="section-subtitle">A production-grade DevOps project with enterprise-level features</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #6c63ff, #a855f7);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Full-Stack Architecture</h3>
+          <p>Node.js + Express backend, MongoDB with Mongoose ODM, JWT authentication, and a beautiful Vanilla JS frontend.</p>
+        </div>
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #0ea5e9, #22d3ee);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Docker Containerized</h3>
+          <p>Multi-stage Docker builds with nginx reverse proxy, docker-compose for local dev, and production-ready container configuration.</p>
+        </div>
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h3>8 Automated Tests</h3>
+          <p>Jest + Supertest integration tests with in-memory MongoDB. Tests for auth, tasks, and health endpoints — all pass in CI.</p>
+        </div>
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>CI/CD Pipeline</h3>
+          <p>GitHub Actions workflows: CI runs tests on every push, CD builds and pushes Docker image to Docker Hub on merge.</p>
+        </div>
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f87171);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Security First</h3>
+          <p>Helmet.js headers, rate limiting, bcrypt password hashing, JWT authentication, and input validation with express-validator.</p>
+        </div>
+        <div class="feature-card glass-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3>MongoDB Analytics</h3>
+          <p>MongoDB aggregation pipelines for task statistics, priority breakdowns, overdue detection, and project progress tracking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tech Stack ── -->
+  <section class="stack-section" id="stack">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">⚡ Tech Stack</div>
+        <h2 class="section-title">Built with Modern Tools</h2>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-card glass-card"><span class="stack-icon">🟢</span><span>Node.js 22</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">⚡</span><span>Express.js</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">🍃</span><span>MongoDB</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">🐳</span><span>Docker</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">⚙️</span><span>GitHub Actions</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">🧪</span><span>Jest + Supertest</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">🔐</span><span>JWT Auth</span></div>
+        <div class="stack-card glass-card"><span class="stack-icon">🌐</span><span>nginx</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CI/CD Pipeline Visual ── -->
+  <section class="pipeline-section" id="pipeline">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">🚀 Pipeline</div>
+        <h2 class="section-title">Automated CI/CD Pipeline</h2>
+        <p class="section-subtitle">Every push triggers an automated workflow</p>
+      </div>
+      <div class="pipeline-flow">
+        <div class="pipeline-step glass-card">
+          <div class="pipeline-num">1</div>
+          <div class="pipeline-icon">💻</div>
+          <h4>Code Push</h4>
+          <p>Developer pushes to main branch on GitHub</p>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step glass-card">
+          <div class="pipeline-num">2</div>
+          <div class="pipeline-icon">🧪</div>
+          <h4>CI: Test</h4>
+          <p>GitHub Actions runs all 8 Jest tests with MongoDB service</p>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step glass-card">
+          <div class="pipeline-num">3</div>
+          <div class="pipeline-icon">🐳</div>
+          <h4>CD: Build</h4>
+          <p>Docker image built with multi-stage build optimization</p>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step glass-card">
+          <div class="pipeline-num">4</div>
+          <div class="pipeline-icon">📦</div>
+          <h4>CD: Push</h4>
+          <p>Versioned image pushed to Docker Hub registry</p>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step glass-card active">
+          <div class="pipeline-num">5</div>
+          <div class="pipeline-icon">✅</div>
+          <h4>Deployed</h4>
+          <p>Container running in production environment</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA Section ── -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card glass-card">
+        <h2>Ready to Explore the Dashboard?</h2>
+        <p>Sign up and manage your DevOps projects with style.</p>
+        <button class="btn btn-primary btn-lg" id="ctaSignupBtn">Launch Dashboard →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="nav-brand">
+          <div class="brand-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#footerGrad)"/>
+              <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="footerGrad" x1="0" y1="0" x2="28" y2="28">
+                  <stop offset="0%" stop-color="#6c63ff"/>
+                  <stop offset="100%" stop-color="#a855f7"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="brand-name">DevFlow</span>
+        </div>
+        <p class="footer-copy">Built with ❤️ as an Advanced DevOps Project · Node.js · MongoDB · Docker · GitHub Actions</p>
+        <a href="https://github.com/Amanullah-Katpar/DevOps-Project" target="_blank" class="footer-link">View on GitHub →</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Auth Modal ── -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal glass-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="loginTab">Login</button>
+        <button class="modal-tab" id="registerTab">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm">
+        <h3 class="form-title">Welcome Back</h3>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@devflow.com" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+        <div class="form-error" id="loginError"></div>
+        <button type="submit" class="btn btn-primary btn-full" id="loginSubmit">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-loader hidden">⟳</span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form hidden" id="registerForm">
+        <h3 class="form-title">Create Account</h3>
+        <div class="form-group">
+          <label for="regUsername">Username</label>
+          <input type="text" id="regUsername" placeholder="devops_hero" required />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="you@devflow.com" required />
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" placeholder="Min. 6 characters" required />
+        </div>
+        <div class="form-error" id="registerError"></div>
+        <button type="submit" class="btn btn-primary btn-full" id="registerSubmit">
+          <span class="btn-text">Create Account</span>
+          <span class="btn-loader hidden">⟳</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
