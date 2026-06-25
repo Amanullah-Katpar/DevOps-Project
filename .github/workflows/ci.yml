@@ -64,17 +64,27 @@ jobs:
       - name: 📦 Install dependencies (including devDependencies)
         run: npm ci
 
+      - name: 💾 Cache MongoDB Binary (mongodb-memory-server)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mongodb-binaries
+          key: mongodb-binary-${{ runner.os }}-6.0.14
+
       - name: 🧪 Run Jest Tests
         run: npm test
+        timeout-minutes: 20
         env:
           NODE_ENV: test
           JWT_SECRET: test_jwt_secret_for_ci_only
+          MONGOMS_PREFER_GLOBAL_PATH: "1"
 
       - name: 📊 Generate Coverage Report
         run: npm run test:coverage
+        timeout-minutes: 20
         env:
           NODE_ENV: test
           JWT_SECRET: test_jwt_secret_for_ci_only
+          MONGOMS_PREFER_GLOBAL_PATH: "1"
 
       - name: 📤 Upload Coverage Report
         uses: actions/upload-artifact@v4
