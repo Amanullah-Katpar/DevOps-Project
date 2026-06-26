@@ -1,0 +1,43 @@
+# Dependencies (always exclude - reinstalled inside container)
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment & Secrets (critical - never bake into image)
+.env
+.env.*
+!.env.example
+
+# Test files (not needed in production image)
+coverage
+backend/tests
+*.test.js
+jest.config.*
+
+# Documentation
+*.md
+README*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+.tmp
