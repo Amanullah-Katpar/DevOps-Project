@@ -3,9 +3,17 @@
    Handles: Auth, API calls, Particles, Dashboard, Charts
 ───────────────────────────────────────────────────────────── */
 
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:5000/api'
-  : '/api';
+// Detect runtime context:
+// - file:// or localhost → direct backend on :5000
+// - any other host      → nginx reverse proxy serves /api/
+const IS_LOCAL = window.location.protocol === 'file:'
+  || window.location.hostname === 'localhost'
+  || window.location.hostname === '127.0.0.1'
+  || window.location.hostname === '';
+
+const API_BASE = IS_LOCAL ? 'http://localhost:5000/api' : '/api';
+
+console.info(`[DevFlow] API_BASE = ${API_BASE} (protocol: ${window.location.protocol})`);
 
 // ─── Token Management ──────────────────────────────────────────────────
 const getToken  = ()         => localStorage.getItem('devflow_token');
@@ -20,10 +28,51 @@ async function api(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  } catch (networkErr) {
+    // Network error — backend is not reachable
+    throw {
+      status: 0,
+      message: `Cannot connect to backend (${API_BASE}). Make sure the server is running:\n  cd backend && npm run dev`,
+      data: {}
+    };
+  }
+
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw { status: res.status, message: data.message || 'Request failed', data };
   return data;
+}
+
+// ─── Connection Banner ──────────────────────────────────────────────────
+async function checkAPIConnection() {
+  try {
+    await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(4000) });
+    // Connected — remove banner if present
+    const banner = document.getElementById('connectionBanner');
+    if (banner) banner.remove();
+  } catch {
+    // Show a prominent banner
+    const existing = document.getElementById('connectionBanner');
+    if (existing) return;
+    const banner = document.createElement('div');
+    banner.id = 'connectionBanner';
+    banner.style.cssText = [
+      'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:9999',
+      'background:linear-gradient(135deg,#ef4444,#b91c1c)',
+      'color:#fff', 'padding:12px 20px', 'text-align:center',
+      'font-size:0.875rem', 'font-weight:600', 'letter-spacing:0.02em',
+      'box-shadow:0 4px 20px rgba(239,68,68,0.5)'
+    ].join(';');
+    banner.innerHTML = [
+      '⚠️ Backend not reachable at <code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px">' + API_BASE + '</code>&nbsp;',
+      '&nbsp;Start the backend: <code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px">cd backend &amp;&amp; npm run dev</code>',
+      '&nbsp;&nbsp;OR&nbsp;&nbsp;',
+      '<code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px">docker-compose up -d</code>'
+    ].join(' ');
+    document.body.prepend(banner);
+  }
 }
 
 // ─── Toast Notification ────────────────────────────────────────────────
@@ -803,6 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavScroll();
     initNavToggle();
     initAuthModal();
+    checkAPIConnection(); // show red banner if backend is down
     // Redirect if already logged in
     if (getToken()) {
       // Show dashboard link instead of auth buttons
